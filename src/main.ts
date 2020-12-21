@@ -13,25 +13,20 @@ declare const process: {
 	}
 }
 
-type extraConfig = {
-	pixelArt: boolean
-}
 
-const config: Phaser.Types.Core.GameConfig & extraConfig = {
+const config: Phaser.Types.Core.GameConfig = {
 	type: Phaser.AUTO,
 	scale: {
-		mode: Phaser.Scale.FIT,
+		// mode: Phaser.Scale.FIT,
 		parent: 'phaser',
 		width: 600,
 		height: 600,
 	},
-	pixelArt: true,
+	// pixelArt: true,
 	physics: {
-		default: 'arcade',
-		arcade: {
+		default: 'matter',
+		matter: {
 			debug: process.env.NODE_ENV === 'development',
-      useTree: false,
-      gravity: { y: 200 }
 		}
 	},
 	scene: [Game],
