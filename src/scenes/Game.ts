@@ -25,20 +25,31 @@ export default class Game extends Phaser.Scene {
     const tileset = map.addTilesetImage('Iceworld', 'tiles');
     const ground = map.createLayer('ground', tileset);
     ground.setCollisionByProperty({ collides: true });
+
     this.matter.world.convertTilemapLayer(ground);
 
     const { width, height } = this.scale;
-    this.penguin = this.matter.add
-      .sprite(width * 0.5, height * 0.5, 'penguin')
-      .play(('player-idle'))
-      .setFixedRotation();
 
-    this.cameras.main.startFollow(this.penguin);
+    const objectLayer = map.getObjectLayer('objects');
 
-    this.penguin.setOnCollide((data: MatterJS.ICollisionPair) => {
-      this.isTouchingGround = true;
-    })
+    objectLayer.objects.forEach((obj) =>{
+        const { x = 0, y = 0, name } = obj;
 
+        switch(name) {
+          case 'spawn':
+
+            this.penguin = this.matter.add
+            .sprite(x, y , 'penguin')
+              .play(('player-idle'))
+              .setFixedRotation();
+
+              this.penguin.setOnCollide((data: MatterJS.ICollisionPair) => {
+              this.isTouchingGround = true;
+            })
+            this.cameras.main.startFollow(this.penguin);
+            break;
+        }
+      })
   }
 
   update(): void {
